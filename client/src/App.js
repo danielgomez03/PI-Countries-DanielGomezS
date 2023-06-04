@@ -1,7 +1,9 @@
 import React from "react";
 import './App.css';
 import { Route, Routes } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { addCountry, removeCountry } from "./redux/actions";
 import LandingPage from "./components/LandingPage";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
@@ -11,21 +13,21 @@ import FormPage from "./components/FormPage";
 
 function App() {
 
-
-  const [countries, setCountries] = React.useState([]);
+  const dispatch = useDispatch();
+  const countries = useSelector((state) => state.countries);
   
   async function onSearch(name) {
     try {
       const url = "http://localhost:3001/countries/name/" + name;
-
+  
       const { data } = await axios(url);
-      console.log(data)
+      console.log(data);
       const country = countries?.find((e) => e.name === data.name);
-
+  
       if (country) {
         alert("Already in the list");
       } else if (data.name !== undefined) {
-        setCountries((countries) => [...countries, data]);
+        dispatch(addCountry(data)); // Despacha la acción para agregar el país
       } else {
         alert("Country not found");
       }
@@ -34,12 +36,16 @@ function App() {
     }
   }
 
+  const onClose = (name) => {
+    dispatch(removeCountry(name));
+  };
+
 
   return (
     <div className="container">
       <Routes>
         <Route path="/" element={<LandingPage/>} />
-        <Route path="/home" element={<Home onSearch={onSearch}  countries={countries}/>} />
+        <Route path="/home" element={<Home onSearch={onSearch} onClose={onClose} />} />
         <Route path="/Detail/:name" element={<Detail/>}/>
         <Route path="/Form" element={<FormPage/>}/>
         <Route path="*" element={<NotFound />} />

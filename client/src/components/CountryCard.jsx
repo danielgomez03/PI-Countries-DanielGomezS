@@ -1,10 +1,9 @@
 import React from "react";
 import { Link} from "react-router-dom";
 
-
 const CountryCard = (props) => {
 
-   const {id, name, image, continent, capital, subregion, area, population, activities, onClose} = props
+   const { name, image, continent, capital, subregion, area, population, activities, onClose} = props
    console.log(props)
    return (
       <div >
@@ -28,7 +27,5 @@ const CountryCard = (props) => {
       </div>
    )
 }
-
-
 
 export default CountryCard;
