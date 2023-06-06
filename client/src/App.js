@@ -1,6 +1,6 @@
 import React from "react";
 import './App.css';
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { addCountry, removeCountry } from "./redux/actions";
@@ -9,10 +9,12 @@ import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Detail from "./components/Detail";
 import FormPage from "./components/FormPage";
+import Nav from "./components/Nav";
 
 
 function App() {
 
+  const location = useLocation();
   const dispatch = useDispatch();
   const countries = useSelector((state) => state.countries);
   
@@ -27,7 +29,7 @@ function App() {
       if (country) {
         alert("Already in the list");
       } else if (data.name !== undefined) {
-        dispatch(addCountry(data)); // Despacha la acción para agregar el país
+        dispatch(addCountry(data)); 
       } else {
         alert("Country not found");
       }
@@ -43,6 +45,9 @@ function App() {
 
   return (
     <div className="container">
+      {location.pathname === "/" ? null : (
+        <Nav/>
+      )}
       <Routes>
         <Route path="/" element={<LandingPage/>} />
         <Route path="/home" element={<Home onSearch={onSearch} onClose={onClose} />} />

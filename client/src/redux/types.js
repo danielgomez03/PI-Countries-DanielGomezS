@@ -4,3 +4,4 @@ export const SORT_BY_NAME = 'SORT_BY_NAME';
 export const SORT_BY_POPULATION = 'SORT_BY_POPULATION';
 export const ADD_COUNTRY = 'ADD_COUNTRY';
 export const REMOVE_COUNTRY = 'REMOVE_COUNTRY';
+export const RESET_FILTERS = 'RESET_FILTERS';

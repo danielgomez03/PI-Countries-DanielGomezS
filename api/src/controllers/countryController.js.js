@@ -29,24 +29,6 @@ async function getCountriesById(req, res, next) {
   }
 }
 
-// async function getCountriesByName(req, res, next) {
-//   try {
-//     const { name } = req.params;
-//     const countryByName = await Country.findOne({
-//       where: { name },
-//       include: Activities,
-//     });
-
-//     if (!countryByName) {
-//       return res.status(404).json({ error: 'Country not found' });
-//     }
-
-//     return res.json(countryByName);
-//   } catch (error) {
-//     return res.status(500).json({ error: 'Internal server error' });
-//   }
-// }
-
 async function getCountriesByName(req, res, next) {
   try {
     const { name } = req.params;
@@ -66,7 +48,7 @@ async function getCountriesByName(req, res, next) {
 
     return res.json(countryByName);
   } catch (error) {
-    console.error(error); // Mostrar el error en la consola para fines de depuración
+    console.error(error); 
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
@@ -76,3 +58,22 @@ module.exports = {
   getCountriesById,
   getAllCountries,
 };
+
+
+// async function getCountriesByName(req, res, next) {
+//   try {
+//     const { name } = req.params;
+//     const countryByName = await Country.findOne({
+//       where: { name },
+//       include: Activities,
+//     });
+
+//     if (!countryByName) {
+//       return res.status(404).json({ error: 'Country not found' });
+//     }
+
+//     return res.json(countryByName);
+//   } catch (error) {
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// }

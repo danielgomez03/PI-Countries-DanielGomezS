@@ -1,0 +1,31 @@
+.detailContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .imageContainer {
+    margin-right: 50px;
+  }
+  
+  .image {
+    width: 400px;
+    height: auto;
+  }
+  
+  .infoContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .field {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }

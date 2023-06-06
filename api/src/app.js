@@ -33,7 +33,6 @@ axios.get(API_URL)
     countries.forEach((countryData) => {
       const { cca3, name, flags, region, capital, subregion, area, population } = countryData;
 
-      // Guardar la información en la base de datos
       Country.create({
         id: cca3,
         name: name.common,

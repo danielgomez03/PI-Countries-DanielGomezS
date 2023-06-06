@@ -5,7 +5,10 @@ import {
   sortByName,
   sortByPopulation,
   filterByContinent,
+  filterByActivity,
+  resetFilters,
 } from "../redux/actions";
+import styles from "../styles/Home.module.css";
 
 const Home = ({
   onClose,
@@ -14,6 +17,7 @@ const Home = ({
   sortByName,
   sortByPopulation,
   filterByContinent,
+  filterByActivity,
 }) => {
   const [name, setName] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -38,6 +42,12 @@ const Home = ({
     filterByContinent(continent);
   };
 
+  const handleActivityFilter = (e) => {
+    e.preventDefault();
+    const activity = e.target.value;
+    filterByActivity(activity);
+  };
+
   const handleSortByName = (e) => {
     e.preventDefault();
     dispatch(sortByName(e.target.value));
@@ -46,6 +56,10 @@ const Home = ({
   const handleSortByPopulation = (e) => {
     e.preventDefault();
     dispatch(sortByPopulation(e.target.value));
+  };
+
+  const handleResetFilters = () => {
+    dispatch(resetFilters());
   };
 
   const paginate = (array) => {
@@ -62,10 +76,10 @@ const Home = ({
   };
 
   return (
-    <div>
+    <div className={styles.home}>
       <h1>Paises</h1>
 
-      <div>
+      <div className={styles.searchContainer}>
         <input
           onChange={handleChange}
           onKeyUp={handleEnter}
@@ -75,7 +89,9 @@ const Home = ({
         <button onClick={() => onSearch(name)}>Buscar</button>
       </div>
 
-      <div>
+      <button onClick={handleResetFilters}>Restablecer filtros</button>
+
+      <div className={styles.filterContainer}>
         <div>
           <label>Filtrar por continente:</label>
           <select
@@ -91,6 +107,34 @@ const Home = ({
             <option value="Europe">Europa</option>
             <option value="Oceania">Oceanía</option>
             <option value="Americas">Américas</option>
+          </select>
+        </div>
+        
+        <div>
+          <label>Filtrar por Actividad:</label>
+          <select
+            onChange={handleActivityFilter}
+            name="filter"
+            defaultValue={"DEFAULT"}
+          >
+            <option value="DEFAULT" disabled>
+              Seleccionar actividad
+            </option>
+            <option value="Senderismo">Senderismo</option>
+            <option value="Surf">Surf</option>
+            <option value="Esquí">Esquí</option>
+            <option value="Buceo">Buceo</option>
+            <option value="Observación de aves">Observación de aves</option>
+            <option value="Excursiones en bicicleta">Excursiones en bicicleta</option>
+            <option value="Turismo gastronómico">Turismo gastronómico</option>
+            <option value="Visitas a viñedos">Visitas a viñedos</option>
+            <option value="Escalada en roca">Escalada en roca</option>
+            <option value="Turismo cultural">Turismo cultural</option>
+            <option value="Visitas a monumentos históricos">Visitas a monumentos históricos</option>
+            <option value="Turismo de aventura">Turismo de aventura</option>
+            <option value="Safari">Safari</option>
+            <option value="Kayak">Kayak</option>
+            <option value="Yoga y meditación">Yoga y meditación</option>
           </select>
         </div>
 
@@ -125,7 +169,7 @@ const Home = ({
         </div>
       </div>
 
-      <div>
+      <div className={styles.countryContainer}>
         {paginatedCountries &&
           paginatedCountries.map((country, index) => {
             return (
@@ -146,10 +190,14 @@ const Home = ({
       </div>
 
       {totalPages > 1 && (
-        <div>
+        <div className={styles.pagination}>
           {Array.from({ length: totalPages }, (_, index) => index + 1).map(
             (page) => (
-              <button key={page} onClick={() => goToPage(page)}>
+              <button
+                key={page}
+                onClick={() => goToPage(page)}
+                className={currentPage === page ? styles.activePage : ""}
+              >
                 {page}
               </button>
             )
@@ -166,10 +214,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  sortByName,
-  sortByPopulation,
-  filterByContinent,
-};
+const mapDispatchToProps = (dispatch) => ({
+  sortByName: (order) => dispatch(sortByName(order)),
+  sortByPopulation: (order) => dispatch(sortByPopulation(order)),
+  filterByContinent: (continent) => dispatch(filterByContinent(continent)),
+  filterByActivity: (activity) => dispatch(filterByActivity(activity)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
